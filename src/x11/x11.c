@@ -16,6 +16,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-int main(int argc, char **argv) {
-  return 0;
+#include "x11.h"
+#include <xcb/xcb.h>
+
+void start_x11_display(void) {
+  xcb_connection_t *conn;
+  const xcb_setup_t *setup;
+  xcb_screen_iterator_t iter;
+  xcb_screen_t *screen;
+  xcb_window_t win;
+
+  conn = xcb_connect(NULL, NULL);
+  setup = xcb_get_setup(conn);
+  iter = xcb_setup_roots_iterator(setup);
+  screen = iter.data;
+  win = xcb_generate_id(conn);
+  xcb_create_window(conn, XCB_COPY_FROM_PARENT, win, screen->root,
+    0, 0, 1280, 720, 10, XCB_WINDOW_CLASS_INPUT_OUTPUT, screen->root_visual,
+    0, NULL);
+  xcb_map_window(conn, win);
+  xcb_flush(conn);
+
+  pause();
+
+  xcb_disconnect(conn);
 }
