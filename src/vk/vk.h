@@ -15,29 +15,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+#ifndef GS22_VK_H
+#define GS22_VK_H
 
-#include "x11.h"
-#include <xcb/xcb.h>
+#include "window/x11/x11.h"
 
-void start_x11_display(void) {
-  xcb_connection_t *conn;
-  const xcb_setup_t *setup;
-  xcb_screen_iterator_t iter;
-  xcb_screen_t *screen;
-  xcb_window_t win;
+struct GS22_VkDriver;
+typedef struct GS22_VkDriver GS22_VkDriver;
 
-  conn = xcb_connect(NULL, NULL);
-  setup = xcb_get_setup(conn);
-  iter = xcb_setup_roots_iterator(setup);
-  screen = iter.data;
-  win = xcb_generate_id(conn);
-  xcb_create_window(conn, XCB_COPY_FROM_PARENT, win, screen->root,
-    0, 0, 1280, 720, 10, XCB_WINDOW_CLASS_INPUT_OUTPUT, screen->root_visual,
-    0, NULL);
-  xcb_map_window(conn, win);
-  xcb_flush(conn);
+GS22_VkDriver * GS22_start_vulkan(GS22_X11Driver *x11);
+void GS22_free_vulkan(GS22_VkDriver *drv);
 
-  pause();
-
-  xcb_disconnect(conn);
-}
+#endif

@@ -15,10 +15,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+#ifndef GS22_X11_H
+#define GS22_X11_H
 
-#ifndef X11_H
-#define X11_H
+#include <xcb/xcb.h>
 
-void start_x11_display(void);
+struct GS22_X11Driver;
+typedef struct GS22_X11Driver GS22_X11Driver;
+
+GS22_X11Driver * GS22_start_x11_display(void);
+void GS22_free_x11(GS22_X11Driver *drv);
+
+xcb_connection_t * GS22_x11_get_connection(GS22_X11Driver *drv);
+xcb_window_t GS22_x11_get_window(GS22_X11Driver *drv);
 
 #endif

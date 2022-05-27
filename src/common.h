@@ -15,13 +15,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-#include "window/x11/x11.h"
-#include "vk/vk.h"
+#ifndef GS22_COMMON_H
+#define GS22_COMMON_H
 
-int main(int argc, char **argv) {
-  GS22_X11Driver *x11 = GS22_start_x11_display();
-  GS22_VkDriver *vk = GS22_start_vulkan(x11);
-  GS22_free_vulkan(vk);
-  GS22_free_x11(x11);
-  return 0;
-}
+#include <stdlib.h>
+
+#define GS22_MALLOC(T) malloc(sizeof(T))
+
+#endif
